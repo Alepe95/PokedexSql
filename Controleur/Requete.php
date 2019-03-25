@@ -11,7 +11,6 @@
 function ConnectBDD(){
     $user = "pokegame";
     $password = "pokegame";
-
     try{
         // Connexion à la base de données
         $db = new PDO('mysql:host=localhost;dbname=pokegame', $user, $password);
@@ -26,7 +25,6 @@ function ConnectBDD(){
 
 function get_allPokemon(){
     $db = connectBDD();
-
         $query = 'SELECT * FROM pokemon_type';
         $arr = $db->query($query)->fetchAll();
     foreach ($arr as $key => $value) {
@@ -89,44 +87,72 @@ function reload()
 }
 
 
-/**
- * Nettoie une valeur insérée dans une page HTML
- * Doit être utilisée à chaque insertion de données dynamique dans une page HTML
- * Permet d'éviter les problèmes d'exécution de code indésirable (XSS)
- * @param string $valeur Valeur à nettoyer
- * @return string Valeur nettoyée
- */
 function escape($valeur)
 {
     // Convertit les caractères spéciaux en entités HTML
     return htmlspecialchars($valeur, ENT_QUOTES, 'UTF-8', false);
 }
 
-function AjoutDresseur($id, $username, $password, $email, $Is_active, $nb_piece, $starter_id){
+function AjoutDresseur( $username, $password, $email, $starter_id){
     $db = connectBDD();
+    $active = 1;
+    $nbPiece = 5000;
+    $res = $db->prepare("INSERT INTO trainer  VALUES (NULL,:username, :password, :email, :active,:nbPiece , :starter_id)");
+    $res->execute(array(
+        'username' => $username,
+        'password' => $password,
+        'email' => $email,
+        'active' => $active,
+        'nbPiece' => $nbPiece,
+        'starter_id' => $starter_id
+    ));
+}
 
-    $query = 'INSERT INTO trainer (id, username, password, email, is_active, nb_pieces, starter_id) VALUES ($id, $username, $password, $email, $Is_active, $nb_piece, $starter_id)';
-
+function connection(){
+    if (isset($_POST['login']) && isset($_POST['mdp'])) {
+        $bdd = ConnectBDD();
+        // cette requête permet de récupérer l'utilisateur depuis la BD
+        $requete = "SELECT * FROM trainer WHERE email=? AND password=?";
+        $resultat = $bdd->prepare($requete);
+        $login = $_POST['login'];
+        $mdp = $_POST['mdp'];
+        $resultat->execute(array($login, $mdp));
+        if ($resultat->rowCount() == 1) {
+            // l'utilisateur existe dans la table
+            // on ajoute ses infos en tant que variables de session
+            $_SESSION['login'] = $login;
+            $_SESSION['mdp'] = $mdp;
+            // cette variable indique que l'authentification a réussi
+            $authOK = true;
+        }
+    }
+    if (isset($authOK)) {
+        echo "<p>Vous êtes bien connectés à votre pokedex " . ($login) . "</p></br>";
+        echo '<a href="../index.php">Poursuivre vers la page d\'accueil</a>';
+    }
+    else {
+        echo "<p>Vous n'avez pas été reconnu(e)</p>";
+        echo '<p><a href="../Vue/login.html">Nouvel essai</p>';
+    }
 }
 function choixPokemonStarter(){
     $db = connectBDD();
-
     $query = 'SELECT * FROM ref_Pokemon where starter = 1';
     $arr = $db->query($query)->fetchAll();
 
+    echo "Choix du starter :  <select name='starter'>";
     foreach ($arr as $key => $value) {
-        echo "
-            
-            <tr >
-                  <td>#$value[0]</td>
-                  <td>$value[1]</td>
-                  <td><input type='radio' id='starter' name='starter' value='starter'> <label for='starter'>Starter ?</label></td>   
-            </tr>";
+       echo "
+            <option value=$value[0]>#$value[1]</option>
+             </tr>
+             ";
     }
-    echo " </table>";
-    echo "<a href='./dresseur.php?id=$value[0]'>OK</a>";
+    echo "</select>";
 
 
     return $arr;
 }
+
+
+function PokemonTrainer
 ?>

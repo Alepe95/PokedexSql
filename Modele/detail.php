@@ -10,15 +10,9 @@
 
 require('../Controleur/Requete.php');
 include("../Vue/header.html");
-
-
 $db = connectBDD();
-
 $pokemon_id = $_GET['id'];
 
-/*$query = 'SELECT * FROM pokemon_e_type where id_poke = $pokemon_id';
-$arr = $db->query($query)->fetch();
-*/
 ?>
 
 
@@ -52,6 +46,6 @@ $arr = $db->query($query)->fetch();
 
     ?>
 
-    echo '<a href="../index.php">Poursuivre vers la page d\'accueil</a>';
+    <a href="../index.php">Poursuivre vers la page d'accueil</a>
 </table>
 

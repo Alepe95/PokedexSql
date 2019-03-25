@@ -24,6 +24,7 @@ if (isset($login) && isset($mdp)) {
 else { ?>
     <p>L'accès à cette page est réservé aux utilisateurs authentifiés</p>
     <p><a href="./Vue/login.html">Se connecter</a></p>
+    <p><a href="./Vue/inscription.html">Créer un compte ?</a></p>
 <?php }
 
 ?>

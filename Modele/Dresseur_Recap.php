@@ -17,4 +17,4 @@ $login = $_POST['starter'];
 $_SESSION['starter'] = $login;
 $starter = $_SESSION['starter'];
 
-echo "Bienvenue, " . $starter;
+echo "Bienvenue, " . $starter ;
