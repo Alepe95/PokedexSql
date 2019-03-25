@@ -8,7 +8,7 @@
  */
 
 
-require('../Controleur/Requete.php');
+require('../Modele/Requete.php');
 include("../Vue/header.html");
 $db = connectBDD();
 $pokemon_id = $_GET['id'];

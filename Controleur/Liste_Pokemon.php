@@ -5,7 +5,7 @@
  * Date: 2019-03-18
  * Time: 14:16
  */
-require('../Controleur/Requete.php');
+require('../Modele/Requete.php');
 
 
 $nbPokemon =  get_nombrePokemon();

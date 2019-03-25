@@ -7,7 +7,7 @@
  */
 
 
-require('../Controleur/Requete.php');
+require('../Modele/Requete.php');
 $db = connectBDD();
 include("../Vue/TabTrainer.html");
 choixPokemonStarter();

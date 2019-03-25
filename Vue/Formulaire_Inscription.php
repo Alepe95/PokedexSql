@@ -10,7 +10,7 @@
 
 
 
-<form action="../Modele/inscription.php" method="post">
+<form action="../Controleur/inscription.php" method="post">
 
     <div class="container">
         <label for="username"><b>Login : </b></label>
@@ -26,7 +26,7 @@
 
 
         <?php
-            require('../Controleur/Requete.php');
+            require('../Modele/Requete.php');
             $db = connectBDD();
             choixPokemonStarter();
         ?>

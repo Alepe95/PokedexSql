@@ -6,7 +6,7 @@
  * Time: 13:20
  */
 
-require '../Controleur/Requete.php';
+require '../Modele/Requete.php';
 $login = $_POST['username'];
 $mdp = $_POST['password'];
 $mail = $_POST['email'];

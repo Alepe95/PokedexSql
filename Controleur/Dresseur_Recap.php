@@ -6,7 +6,7 @@
  * Time: 23:40
  */
 
-require('../Controleur/Requete.php');
+require('../Modele/Requete.php');
 include("../Vue/header.html");
 
 echo '<a href="../index.php">Retour accueil ? </a> <br>';
