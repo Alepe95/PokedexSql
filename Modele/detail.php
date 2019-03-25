@@ -32,7 +32,7 @@ $pokemon_id = $_GET['id'];
     </thead>
 
     <?php
-    $query = "SELECT * FROM pokemon_type where id = $pokemon_id";
+    $query = "SELECT * FROM ref_pokemon where id = $pokemon_id";
     $arr = $db->query($query)->fetch();
 
         echo "<tr >

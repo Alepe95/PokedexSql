@@ -23,7 +23,7 @@ function ConnectBDD(){
 
 function get_allPokemon(){
     $db = connectBDD();
-        $query = 'SELECT * FROM pokemon_type';
+        $query = 'SELECT * FROM ref_Pokemon';
         $arr = $db->query($query)->fetchAll();
     foreach ($arr as $key => $value) {
         echo "<tr >
@@ -38,7 +38,7 @@ function get_allPokemon(){
 
 function get_nomPokemon(){
     $db = connectBDD();
-        $res = $db->prepare("SELECT id,nom FROM pokemon_type ");
+        $res = $db->prepare("SELECT id,nom FROM ref_pokemon ");
         $res->execute();
         $res = $res->fetchAll();
         print_r($res);
@@ -48,7 +48,7 @@ function get_nomPokemon(){
 
 function get_nombrePokemon(){
     $db = connectBDD();
-    $res = $db->prepare("SELECT count(nom) FROM pokemon_type");
+    $res = $db->prepare("SELECT count(nom) FROM ref_pokemon");
     $res->execute();
     $res = $res->fetchColumn();
     return $res;
@@ -68,7 +68,7 @@ function drop_Pokemon($id){
     $db = connectBDD();
 
 
-    $res = $db->prepare("Delete FROM pokemon_type where id = $id");
+    $res = $db->prepare("Delete FROM ref_pokemon where id = $id");
     $res->execute();
     $res = $res->fetchColumn();
     return $res;
@@ -92,6 +92,11 @@ function AjoutDresseur( $username, $password, $email, $starter_id){
     $active = 1;
     $nbPiece = 5000;
     $res = $db->prepare("INSERT INTO trainer  VALUES (NULL,:username, :password, :email, :active,:nbPiece , :starter_id)");
+
+    $query1 = "select max(id) as id from trainer";
+    $prep = $db->query($query1)->fetch()['id'];
+
+
     $res->execute(array(
         'username' => $username,
         'password' => $password,
@@ -100,7 +105,15 @@ function AjoutDresseur( $username, $password, $email, $starter_id){
         'nbPiece' => $nbPiece,
         'starter_id' => $starter_id
     ));
+    $query2 = $db->prepare("insert into pokemon () VALUES(NULL,$starter_id, 'm',0,5,0,0,0,$prep)");
+
+
+    $query2->execute();
+
+
+
 }
+
 
 function connexion(){
     if (isset($_POST['login']) && isset($_POST['mdp'])) {
@@ -123,7 +136,7 @@ function connexion(){
         }
     }
     if (isset($authOK)) {
-        echo "<p>Vous êtes bien connectés à votre pokedex " . ($id) . "</p></br>";
+        echo "<p>Bonjour " . ($login) . " Vous êtes bien connectés à votre pokedex </p></br>";
         echo '<a href="../index.php">Poursuivre vers la page d\'accueil</a>';
     }
     else {
@@ -163,13 +176,25 @@ function PokemonTrainer($id){
                   <td>$value[0]</td>
                   <td>$value[1]</td>
                   <td>$value[2]</td>
+                  <td><a href='./detail.php?id=$value[0]'>Details</a></td>
+
               </tr>";
 
-                         /* <td><a href='./detail.php?id=$value[0]'>Details</a></td>*/
 
     }
 
 
     return $arr;
+}
+
+
+function nombrePiece($id){
+
+    $db = connectBDD();
+
+    $res = $db->prepare("SELECT nb_pieces from trainer where id='$id'");
+    $res->execute();
+    $res = $res->fetchColumn();
+    return $res;
 }
 ?>

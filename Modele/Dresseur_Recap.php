@@ -9,7 +9,7 @@
 require('../Controleur/Requete.php');
 include("../Vue/header.html");
 
-
+echo '<a href="../index.php">Retour accueil ? </a> <br>';
 $db = connectBDD();
 $id = $_SESSION['trainer'][0][0];
 
