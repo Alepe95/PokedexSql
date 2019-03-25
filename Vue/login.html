@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <link rel="stylesheet" type="text/css" href="connection.css">
+</head>
+<body>
+<h1>Connexion utilisateur</h1>
+
+
+
+<form action="../Modele/login_post.php" method="post">
+
+    <div class="container">
+        <label for="nom"><b>Nom : </b></label>
+        <input type="text" placeholder="Entrez votre mot de email" name="login" id="nom" required>
+
+        <label for="mdp"><b>Mot de Passe</b></label>
+        <input type="password" placeholder="Entrez votre mot de passe" name="mdp" id="mdp" required>
+
+        <button type="submit">Login</button>
+        <label>
+            <input type="submit" value="Connexion">
+        </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+    </div>
+</form>
+</body>
+</html>
