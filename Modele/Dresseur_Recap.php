@@ -11,10 +11,15 @@ include("../Vue/header.html");
 
 
 $db = connectBDD();
-$login =
+$id = $_SESSION['trainer'][0][0];
 
-$login = $_POST['starter'];
-$_SESSION['starter'] = $login;
-$starter = $_SESSION['starter'];
 
-echo "Bienvenue, " . $starter ;
+PokemonTrainer($id);
+
+
+if(isset($_GET['id'])){
+    $pokemon_id = $_GET['id'];
+    drop_Pokemon($pokemon_id);
+    reload();
+}
+

@@ -21,8 +21,6 @@ function ConnectBDD(){
     return $db;
 }
 
-
-
 function get_allPokemon(){
     $db = connectBDD();
         $query = 'SELECT * FROM pokemon_type';
@@ -40,24 +38,20 @@ function get_allPokemon(){
 
 function get_nomPokemon(){
     $db = connectBDD();
-
         $res = $db->prepare("SELECT id,nom FROM pokemon_type ");
         $res->execute();
         $res = $res->fetchAll();
         print_r($res);
         return $res;
-
 }
 
 
 function get_nombrePokemon(){
     $db = connectBDD();
-
     $res = $db->prepare("SELECT count(nom) FROM pokemon_type");
     $res->execute();
     $res = $res->fetchColumn();
     return $res;
-
 }
 
 function get_informationPokemon($id){
@@ -108,26 +102,28 @@ function AjoutDresseur( $username, $password, $email, $starter_id){
     ));
 }
 
-function connection(){
+function connexion(){
     if (isset($_POST['login']) && isset($_POST['mdp'])) {
         $bdd = ConnectBDD();
-        // cette requête permet de récupérer l'utilisateur depuis la BD
         $requete = "SELECT * FROM trainer WHERE email=? AND password=?";
         $resultat = $bdd->prepare($requete);
         $login = $_POST['login'];
         $mdp = $_POST['mdp'];
+        //$resultat ->fetchAll();
+
+
+
         $resultat->execute(array($login, $mdp));
         if ($resultat->rowCount() == 1) {
-            // l'utilisateur existe dans la table
-            // on ajoute ses infos en tant que variables de session
             $_SESSION['login'] = $login;
             $_SESSION['mdp'] = $mdp;
-            // cette variable indique que l'authentification a réussi
+            $_SESSION['trainer'] = $resultat ->fetchAll();
+            $id = $_SESSION['trainer'][0][0];
             $authOK = true;
         }
     }
     if (isset($authOK)) {
-        echo "<p>Vous êtes bien connectés à votre pokedex " . ($login) . "</p></br>";
+        echo "<p>Vous êtes bien connectés à votre pokedex " . ($id) . "</p></br>";
         echo '<a href="../index.php">Poursuivre vers la page d\'accueil</a>';
     }
     else {
@@ -135,6 +131,7 @@ function connection(){
         echo '<p><a href="../Vue/login.html">Nouvel essai</p>';
     }
 }
+
 function choixPokemonStarter(){
     $db = connectBDD();
     $query = 'SELECT * FROM ref_Pokemon where starter = 1';
@@ -143,7 +140,7 @@ function choixPokemonStarter(){
     echo "Choix du starter :  <select name='starter'>";
     foreach ($arr as $key => $value) {
        echo "
-            <option value=$value[0]>#$value[1]</option>
+            <option value=$value[0]>$value[1]</option>
              </tr>
              ";
     }
@@ -154,5 +151,25 @@ function choixPokemonStarter(){
 }
 
 
-function PokemonTrainer
+function PokemonTrainer($id){
+    $db = connectBDD();
+    echo "<tr >Les Pokémons présents dans le Pokédex sont : ";
+    include('../Vue/tabTrainer.html');
+    $query = "SELECT ref_pokemon.id,nom,niveau FROM ref_pokemon INNER JOIN pokemon ON ref_pokemon.id=pokemon.ref_pokemon_id AND pokemon.dresseur_id= '$id'";
+
+    $arr = $db->query($query)->fetchAll();
+    foreach ($arr as $key => $value) {
+        echo "<tr >
+                  <td>$value[0]</td>
+                  <td>$value[1]</td>
+                  <td>$value[2]</td>
+              </tr>";
+
+                         /* <td><a href='./detail.php?id=$value[0]'>Details</a></td>*/
+
+    }
+
+
+    return $arr;
+}
 ?>

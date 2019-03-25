@@ -3,19 +3,7 @@
 
 // on vérifie que les données du formulaire sont présentes
 require('../Controleur/Requete.php');
-connection();
+connexion();
 
-?>
 
-<!doctype html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>Résultat de l'authentification</title>
-</head>
-<body>
 
-<h1>Résultat de l'authentification</h1>
-
-</body>
-</html>

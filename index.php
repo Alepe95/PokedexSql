@@ -5,6 +5,7 @@ session_start();  // démarrage d'une session
 if (isset($_SESSION['login']) && isset($_SESSION['mdp'])) {
     $login = $_SESSION['login'];
     $mdp = $_SESSION['mdp'];
+    $id = $_SESSION['trainer'][0][0];
 }
 ?>
 
@@ -19,12 +20,13 @@ if (isset($_SESSION['login']) && isset($_SESSION['mdp'])) {
 if (isset($login) && isset($mdp)) {
     echo "Bienvenue, " . $login . ". Votre mot de passe est " . $mdp . ".";
     echo "<h1>Accueil du site</h1>";
-    echo '<a href="./Modele/Liste_Pokemon.php">Afficher la liste de tous les pokemons ?</a>';
+    echo '<a href="./Modele/Liste_Pokemon.php">Afficher la liste de tous les pokemons ?</a></br>';
+    echo '<a href="./Modele/Dresseur_Recap.php">Afficher la liste de tous les pokemons vous appartenant ?</a>';
 }
 else { ?>
     <p>L'accès à cette page est réservé aux utilisateurs authentifiés</p>
     <p><a href="./Vue/login.html">Se connecter</a></p>
-    <p><a href="./Vue/inscription.html">Créer un compte ?</a></p>
+    <p><a href="./Vue/inscription.php">Créer un compte ?</a></p>
 <?php }
 
 ?>
